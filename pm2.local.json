@@ -2,7 +2,7 @@
   "apps": [{
     "name": "micro-frontend-server",
     "script": "./src/index.js",
-    "cwd": "/root/micro-frontend-server/current",
+    "cwd": "/Users/Fan/workspace/micro-frontend-server",
     "instance_var":"production",
     "env": {
       "PORT": "9898"
