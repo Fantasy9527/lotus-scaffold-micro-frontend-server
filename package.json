@@ -25,7 +25,12 @@
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
-    "mocha": "mocha test/ --recursive --exit"
+    "mocha": "mocha test/ --recursive --exit",
+    "deploy:prod": "shipit Production deploy",
+    "deploy:test": "shipit Test deploy",
+    "rollback:prod": "shipit Production rollback",
+    "deploy:dev": "shipit Development deploy",
+    "rollback:dev": "shipit Development rollback"
   },
   "dependencies": {
     "@feathersjs/configuration": "^1.0.2",
