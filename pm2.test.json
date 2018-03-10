@@ -3,6 +3,7 @@
     "name": "micro-frontend-server",
     "script": "./index.js",
     "cwd": "/root/micro-frontend-server/current/src",
+    "instance_var":"production",
     "env": {
       "PORT": "9898"
     }
