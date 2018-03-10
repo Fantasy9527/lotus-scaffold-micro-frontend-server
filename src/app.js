@@ -26,10 +26,10 @@ app.use(helmet());
 app.use(compress());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(favicon(path.join('../public/', 'favicon.ico')));
+app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
-app.use('/', express.static('../public/'));
-app.use('/', express.static('../view/'));
+app.use('/', express.static(app.get('public')));
+app.use('/', express.static(app.get('view')));
 
 // Set up Plugins and providers
 app.configure(express.rest());
