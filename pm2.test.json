@@ -6,7 +6,6 @@
     "instances": 1,
     "cwd": "/root/micro-frontend/current/src",
     "env": {
-      "NODE_ENV": "production",
       "PORT": "9898"
     }
   }]
