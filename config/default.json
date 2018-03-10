@@ -2,6 +2,7 @@
   "host": "localhost",
   "port": 3030,
   "public": "../public/",
+  "view": "../view/",
   "paginate": {
     "default": 10,
     "max": 50

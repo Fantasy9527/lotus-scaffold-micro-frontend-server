@@ -1,7 +1,7 @@
 {
     "apps": [{
         "name": "micro-frontend-server",
-        "script": "index.js",
+        "script": "./src/index.js",
         "args": "--env=production",
         "instances": 1,
         "cwd": "/root/micro-frontend/current/src",
