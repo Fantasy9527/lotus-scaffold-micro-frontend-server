@@ -11,7 +11,7 @@ module.exports = function(shipit) {
       ignores: [
         '.git', 'node_modules',
       ],
-      keepReleases: 20,
+      keepReleases: 1,
       deleteOnRollback: false,
       shallowClone: true,
       cnpm: {},
