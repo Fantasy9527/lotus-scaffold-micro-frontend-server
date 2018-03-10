@@ -2,7 +2,7 @@
   "apps": [{
     "name": "micro-frontend-server",
     "script": "./index.js",
-    "cwd": "/root/micro-frontend/current/src",
+    "cwd": "/root/micro-frontend-server/current/src",
     "env": {
       "PORT": "9898"
     }

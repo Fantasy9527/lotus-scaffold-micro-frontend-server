@@ -16,42 +16,42 @@ module.exports = function(shipit) {
       shallowClone: true,
       cnpm: {},
     },
-    Production: {
-      env: 'prod',
-      pm2: {
-        json: '/root/micro-frontend/current/pm2.json',
-      },
-      deployTo: '/root/micro-frontend/',
+    // Production: {
+    //   env: 'prod',
+    //   pm2: {
+    //     json: '/root/micro-frontend/current/pm2.json',
+    //   },
+    //   deployTo: '/root/micro-frontend/',
 
-      servers: [ 'root@10.0.26.105' ],
-      branch: '1.5.3',
-    },
+    //   servers: [ 'root@10.0.26.105' ],
+    //   branch: '1.5.3',
+    // },
     Development: {
       env: 'dev',
       isDevelopment: true,
       pm2: {
-        json: '/root/micro-frontend/current/pm2.test.json',
+        json: '/root/micro-frontend-server/current/pm2.test.json',
       },
-      deployTo: '/root/micro-frontend/',
+      deployTo: '/root/micro-frontend-server/',
       servers: [ 'root@10.0.21.105' ],
       branch: 'master',
     },
-    Test: {
-      env: 'test',
-      isDevelopment: true,
-      pm2: {
-        json: '/root/micro-frontend/current/pm2.test.json',
+    // Test: {
+    //   env: 'test',
+    //   isDevelopment: true,
+    //   pm2: {
+    //     json: '/root/micro-frontend-server/current/pm2.test.json',
 
-      },
-      deployTo: '/root/micro-frontend/',
-      servers: [ 'root@10.0.21.160' ],
-      branch: 'master',
+    //   },
+    //   deployTo: '/root/micro-frontend-server/',
+    //   servers: [ 'root@10.0.21.160' ],
+    //   branch: 'master',
 
-    },
+    // },
   });
 
   var bootstrap = function() {
-    // const baseDir = '/root/micro-frontend/current';
+    // const baseDir = '/root/micro-frontend-server/current';
     // shipit.remote(`mkdir ${baseDir}/public;`);
 
     // shipit.remote(`ln -nfs /root/project/view-pool ${baseDir}/app/view`);

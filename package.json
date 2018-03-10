@@ -52,7 +52,6 @@
     "shipit-pm2": "^0.0.4",
     "shipit-cli": "^3.0.0",
     "shipit-cnpmjs": "^0.1.0",
-    "shipit-deploy": "^2.5.1",
-    "shipit-shared": "^4.4.2"
+    "shipit-deploy": "^2.5.1"
   }
 }

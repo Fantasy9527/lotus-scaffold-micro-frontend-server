@@ -4,7 +4,7 @@
     "script": "./index.js",
     "args": "--production",
     "instances": 1,
-    "cwd": "/root/micro-frontend/current/src",
+    "cwd": "/root/micro-frontend-server/current/src",
     "env": {
       "PORT": "9898"
     }
