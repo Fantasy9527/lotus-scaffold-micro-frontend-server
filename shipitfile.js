@@ -82,14 +82,14 @@ module.exports = function(shipit) {
     // 开发环境
     // 发布完成之后建立视图的链接
     shipit.on('rollbacked', () => {
-      happyLink();
+      bootstrap();
     });
 
   } else {
     // 生产环境
     // 发布完成之后建立视图的链接
     shipit.on('rollbacked', () => {
-      happyLink();
+      bootstrap();
     });
   }
 };
