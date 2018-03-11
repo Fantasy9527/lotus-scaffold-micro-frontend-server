@@ -29,11 +29,9 @@ logger.log(app.get('public'));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use(history({index:'/index.html'}));
-app.use('/', express.static('/Users/Fan/workspace/frontend-portal/dist'));
+
 app.use('/', express.static(app.get('view')));
 app.use('/', express.static(app.get('project')));
-app.use('/jcerStatic', express.static(app.get('project') +'/jcer/jcerStatic'));
-
 
 // Set up Plugins and providers
 app.configure(express.rest());
