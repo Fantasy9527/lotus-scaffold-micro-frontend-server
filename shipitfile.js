@@ -51,10 +51,10 @@ module.exports = function(shipit) {
   });
 
   var bootstrap = function() {
-    // const baseDir = '/root/micro-frontend-server/current';
+    const baseDir = '/root/micro-frontend-server/current';
     // shipit.remote(`mkdir ${baseDir}/public;`);
 
-    // shipit.remote(`ln -nfs /root/project/view-pool ${baseDir}/app/view`);
+    shipit.remote(`ln -nfs /root/micro-frontend-project ${baseDir}/project`);
     // shipit.remote(`ln -nfs /root/project/Attachments ${baseDir}/app/static/Attachments`);
     // shipit.remote(`cd ${baseDir}; npm stop`);
     // setTimeout(function() {
@@ -76,7 +76,7 @@ module.exports = function(shipit) {
 
   };
 
-  shipit.on('deployed', bootstrap);
+  shipit.on('published', bootstrap);
 
   if (shipit.config.isDevelopment) {
     // 开发环境

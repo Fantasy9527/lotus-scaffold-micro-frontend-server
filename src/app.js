@@ -24,12 +24,21 @@ app.use(cors());
 app.use(helmet());
 app.use(compress());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-logger.log(app.get('public'));
+app.use(express.urlencoded({
+  extended: true
+}));
+global.logger = logger;
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
-app.use(history({index:'/index.html'}));
-
+//增加白名单
+app.use(history({
+  rewrites: [{
+    from: /^\/api\/.*$/,
+    to: function (context) {
+      return context.parsedUrl.pathname;
+    }
+  }]
+}));
 app.use('/', express.static(app.get('view')));
 app.use('/', express.static(app.get('project')));
 
@@ -41,12 +50,15 @@ app.configure(socketio());
 app.configure(middleware);
 // Set up our services (see `services/index.js`)
 app.configure(services);
+
 // Set up event channels (see channels.js)
 app.configure(channels);
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
-app.use(express.errorHandler({ logger }));
+app.use(express.errorHandler({
+  logger
+}));
 
 app.hooks(appHooks);
 

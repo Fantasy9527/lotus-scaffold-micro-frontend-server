@@ -44,6 +44,7 @@
     "cors": "^2.8.4",
     "helmet": "^3.9.0",
     "serve-favicon": "^2.4.5",
+    "shelljs": "^0.8.1",
     "winston": "^2.4.0"
   },
   "devDependencies": {
