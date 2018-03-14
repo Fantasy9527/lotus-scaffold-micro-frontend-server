@@ -47,6 +47,7 @@ class Service {
     console.log('webhook开始启动');
     let originPath = `${os.homedir()}/micro-frontend-temp`;
     let serviceStatic = `${os.homedir()}/micro-frontend-project/`;
+    let viewStatic = `${os.homedir()}/micro-frontend-view/`;
     let path = `${os.homedir()}/micro-frontend-temp/${data.repository.name}`;
     //如果没有文件夹,直接 git clone
     if (!shell.test('-d', originPath)) {
@@ -58,7 +59,8 @@ class Service {
     }
 
     shell.cd(path);
-    console.log('当前目录为:', shell.exec('pwd'));
+    console.log('当前目录为:');
+    shell.exec('pwd');
     console.log('检出分支为:', data.project.default_branch);
     shell.exec(`git checkout ${data.project.default_branch}`);
 
@@ -72,11 +74,16 @@ class Service {
     shell.exec('npm run build');
     console.log('打包完成,开始移动到服务静态目录');
 
-
     //判断是否有静态目录文件夹
     if (!shell.test('-d', serviceStatic)) {
       console.log('静态目录文件夹不存在,开始创建');
       shell.mkdir('-p', serviceStatic);
+    }
+
+    //判断是否有静态目录文件夹
+    if (!shell.test('-d', viewStatic)) {
+      console.log('静态目录文件夹不存在,开始创建');
+      shell.mkdir('-p', viewStatic);
     }
 
     let projectPackage = require(`${path}/package.json`);
@@ -88,11 +95,23 @@ class Service {
     shell.rm('-rf', oldPath);
 
     //移动打包好的文件
-    let targetPath = `${serviceStatic}${data.repository.name}`;
+    //如果是 micro-frontend-portal
+    let targetPath;
+    targetPath = `${serviceStatic}${data.repository.name}`;
+
+    //如果是出口项目,则直接移动到 view目录
+    if (data.repository.name === 'micro-frontend-portal') {
+      targetPath = `${viewStatic}`;
+    }
+ 
     console.log('开始移动文件夹', `${path}/build to ${targetPath}`);
     shell.exec(`mv ${path}/build ${targetPath}`);
     console.log('移动完毕');
-    fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, { encoding: 'utf-8' });
+
+    if (data.repository.name !== 'micro-frontend-portal') {
+      fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, { encoding: 'utf-8' });
+    }
+   
     
     //获取微前端配置文件的必要信息
     console.log('获取微前端配置文件的必要信息');
