@@ -6,6 +6,7 @@ console.log(process.cwd() );
 let projectPath = process.cwd();
 
 shell.exec(`ln -nfs ${os.homedir()}/micro-frontend-project ${projectPath}/project`);
+shell.exec(`ln -nfs ${os.homedir()}/micro-frontend-view ${projectPath}/view`);
 
 
 let deployLine = [];
