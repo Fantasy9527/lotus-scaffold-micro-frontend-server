@@ -58,6 +58,7 @@ class Service {
     }
 
     shell.cd(path);
+    console.log('当前目录为:', shell.exec('pwd'));
     console.log('检出分支为:', data.project.default_branch);
     shell.exec(`git checkout ${data.project.default_branch}`);
 
