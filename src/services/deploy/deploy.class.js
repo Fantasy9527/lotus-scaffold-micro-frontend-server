@@ -5,6 +5,7 @@ var os = require('os');
 console.log(process.cwd() );
 let projectPath = process.cwd();
 
+//项目初始化的时候链接文件夹
 shell.exec(`ln -nfs ${os.homedir()}/micro-frontend-project ${projectPath}/project`);
 shell.exec(`ln -nfs ${os.homedir()}/micro-frontend-view ${projectPath}/view`);
 
@@ -53,7 +54,7 @@ class Service {
       shell.mkdir(originPath);
       shell.cd(originPath);
       console.log('开始clone项目', data.repository.name);
-      shell.exec(`git clone ${data.repository.url}`);
+      shell.exec(`git clone ${data.repository.ssh_url}`);
     }
 
     shell.cd(path);
