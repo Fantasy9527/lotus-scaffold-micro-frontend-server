@@ -1,9 +1,11 @@
 var shell = require('shelljs');
 
-var fs = require('fs');
+var fs = require('fs');  
 var os = require('os');
 console.log(process.cwd() );
 let projectPath = process.cwd();
+
+shell.exec(`ln -nfs ${os.homedir()}/micro-frontend-project ${projectPath}/project`);
 
 
 let deployLine = [];
@@ -11,6 +13,10 @@ let deployTimer = null;
 class Service {
   constructor(options) {
     this.options = options || {};
+    let projectConfigList = this.generateProjectConfig(`${projectPath}/project`, []);
+    //生成微前端配置文件
+    console.log('生成微前端配置文件');
+    fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, { encoding: 'utf-8' });
   }
 
   async find(params) {
@@ -73,8 +79,6 @@ class Service {
     let projectPackage = require(`${path}/package.json`);
     let registerConfig = projectPackage.registerConfig;
 
-    console.log();
-
     //删除旧文件夹
     let oldPath = `${serviceStatic}${data.repository.name}`;
     console.log('清除旧的目录文件', oldPath);
@@ -87,20 +91,9 @@ class Service {
     console.log('移动完毕');
     fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, { encoding: 'utf-8' });
     
-    let projectConfigList = [];
     //获取微前端配置文件的必要信息
     console.log('获取微前端配置文件的必要信息');
-    generateProjectConfig(`${projectPath}/project`, projectConfigList);
-    function generateProjectConfig(path, filesList) {
-      var files = fs.readdirSync(path);
-      files.forEach(function (itm, index) {
-        var stat = fs.statSync(path +'/'+ itm);
-        if (stat.isDirectory()) {
-          //递归读取文件
-          projectConfigList.push(require(path + '/' + itm + '/project.js'));
-        } 
-      });
-    }
+    let projectConfigList =  this.generateProjectConfig(`${projectPath}/project`, []);
 
     console.log(projectConfigList);
 
@@ -108,6 +101,19 @@ class Service {
     console.log('生成微前端配置文件');
     fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, { encoding: 'utf-8' });
 
+  }
+
+
+  generateProjectConfig(path, projectConfigList) {
+    var files = fs.readdirSync(path);
+    files.forEach(function (itm, index) {
+      var stat = fs.statSync(path + '/' + itm);
+      if (stat.isDirectory()) {
+      //递归读取文件
+        projectConfigList.push(require(path + '/' + itm + '/project.js'));
+      }
+    });
+    return projectConfigList;
   }
 
   async update(id, data, params) {
