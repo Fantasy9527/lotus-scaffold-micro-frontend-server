@@ -96,12 +96,16 @@ class Service {
     //移动打包好的文件
     //如果是 micro-frontend-portal
     let targetPath;
-    targetPath = `${serviceStatic}${registerConfig.name}`;
+    console.log(registerConfig);
+
+
 
 
     //如果是出口项目,则直接移动到 view目录
     if (data.repository.name === 'frontend-portal') {
       targetPath = `${viewStatic}`;
+    }else{
+      targetPath = `${serviceStatic}${registerConfig.name}`;
     }
  
     console.log('开始移动文件夹', `${path}/build to ${targetPath}`);
@@ -148,6 +152,9 @@ class Service {
     } catch (err) {
       console.error(err);
     }
+
+    console.log('发布完毕!!!!!!!');
+
 
   }
 
