@@ -1,6 +1,7 @@
 var shell = require('shelljs');
 
 var fs = require('fs');  
+const fse = require('fs-extra');
 var os = require('os');
 console.log(process.cwd() );
 let projectPath = process.cwd();
@@ -43,20 +44,21 @@ class Service {
     return data;
   }
 
-  deploy (data){
+  async deploy (data){
     console.log('webhook开始启动');
     let originPath = `${os.homedir()}/micro-frontend-temp`;
     let serviceStatic = `${os.homedir()}/micro-frontend-project/`;
     let viewStatic = `${os.homedir()}/micro-frontend-view/`;
     let path = `${os.homedir()}/micro-frontend-temp/${data.repository.name}`;
     //如果没有文件夹,直接 git clone
-    if (!shell.test('-d', originPath)) {
+    console.log(this.fsExistsSync(originPath));
+    if (!this.fsExistsSync(originPath)) {
       console.log('文件夹不存在,开始创建');
       shell.mkdir(originPath);
-      shell.cd(originPath);
-      console.log('开始clone项目', data.repository.name);
-      shell.exec(`git clone ${data.repository.ssh_url}`);
     }
+    shell.cd(originPath);
+    console.log('开始clone项目', data.repository.name, data.repository);
+    shell.exec(`git clone ${data.repository.url}`);
 
     shell.cd(path);
     console.log('当前目录为:');
@@ -71,7 +73,7 @@ class Service {
     shell.exec('cnpm i');
 
     console.log('开始构建打包');
-    shell.exec('npm run build');
+    shell.exec('npm run build:micro');
     console.log('打包完成,开始移动到服务静态目录');
 
     //判断是否有静态目录文件夹
@@ -81,7 +83,7 @@ class Service {
     }
 
     //判断是否有静态目录文件夹
-    if (!shell.test('-d', viewStatic)) {
+    if (!this.fsExistsSync(viewStatic)) {
       console.log('静态目录文件夹不存在,开始创建');
       shell.mkdir('-p', viewStatic);
     }
@@ -89,26 +91,31 @@ class Service {
     let projectPackage = require(`${path}/package.json`);
     let registerConfig = projectPackage.registerConfig;
 
-    //删除旧文件夹
-    let oldPath = `${serviceStatic}${data.repository.name}`;
-    console.log('清除旧的目录文件', oldPath);
-    shell.rm('-rf', oldPath);
+
 
     //移动打包好的文件
     //如果是 micro-frontend-portal
     let targetPath;
-    targetPath = `${serviceStatic}${data.repository.name}`;
+    targetPath = `${serviceStatic}${registerConfig.name}`;
+
 
     //如果是出口项目,则直接移动到 view目录
-    if (data.repository.name === 'micro-frontend-portal') {
+    if (data.repository.name === 'frontend-portal') {
       targetPath = `${viewStatic}`;
     }
  
     console.log('开始移动文件夹', `${path}/build to ${targetPath}`);
-    shell.exec(`mv ${path}/build ${targetPath}`);
-    console.log('移动完毕');
+    
+    try {
+      await fse.copy(`${path}/build`, `${targetPath}`);
+      console.log('移动完毕');
+    } catch (err) {
+      console.error(err);
+    }
+    
 
-    if (data.repository.name !== 'micro-frontend-portal') {
+    //不是出口项目,才写入配置文件
+    if (data.repository.name !== 'frontend-portal') {
       fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, { encoding: 'utf-8' });
     }
    
@@ -123,6 +130,25 @@ class Service {
     console.log('生成微前端配置文件');
     fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, { encoding: 'utf-8' });
 
+    // try {
+    //   await fse.writeJson('./package.json', { name: 'fs-extra' })
+    //   console.log('success!')
+    // } catch (err) {
+    //   console.error(err)
+    // }
+
+
+
+    //删除旧文件夹
+    try {
+      let oldPath = `${serviceStatic}${data.repository.name}`;
+      console.log('清除旧的目录文件', oldPath);
+      await fse.remove('oldPath');
+      console.log('清除旧的目录文件 成功!');
+    } catch (err) {
+      console.error(err);
+    }
+
   }
 
 
@@ -136,6 +162,15 @@ class Service {
       }
     });
     return projectConfigList;
+  }
+
+  fsExistsSync(path) {
+    try {
+      fs.accessSync(path, fs.F_OK);
+    } catch (e) {
+      return false;
+    }
+    return true;
   }
 
   async update(id, data, params) {
