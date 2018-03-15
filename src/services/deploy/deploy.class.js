@@ -99,8 +99,8 @@ class Service {
 
 
     //如果是出口项目,则直接移动到 view目录
-    console.log('当前项目为:',data.repository);
-    if (data.repository.name === 'frontend-portal') {
+    console.log('当前项目为:', (data.repository||data).name);
+    if ((data.repository || data).name === 'frontend-portal') {
       targetPath = `${viewStatic}`;
     }else{
       targetPath = `${serviceStatic}${registerConfig.name}`;
