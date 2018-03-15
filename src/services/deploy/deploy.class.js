@@ -91,17 +91,14 @@ class Service {
     let projectPackage = require(`${path}/package.json`);
     let registerConfig = projectPackage.registerConfig;
 
-
-
     //移动打包好的文件
     //如果是 micro-frontend-portal
     let targetPath;
     console.log(registerConfig);
 
 
-
-
     //如果是出口项目,则直接移动到 view目录
+    console.log('当前项目为:',data.repository.name);
     if (data.repository.name === 'frontend-portal') {
       targetPath = `${viewStatic}`;
     }else{
@@ -133,15 +130,6 @@ class Service {
     //生成微前端配置文件
     console.log('生成微前端配置文件');
     fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, { encoding: 'utf-8' });
-
-    // try {
-    //   await fse.writeJson('./package.json', { name: 'fs-extra' })
-    //   console.log('success!')
-    // } catch (err) {
-    //   console.error(err)
-    // }
-
-
 
     //删除旧文件夹
     try {
