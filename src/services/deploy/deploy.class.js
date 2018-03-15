@@ -118,7 +118,7 @@ class Service {
     
 
     //不是出口项目,才写入配置文件
-    console.log("是否为出口项目"，data.repository.name !== 'frontend-portal')
+    console.log('是否为出口项目',data.repository.name !== 'frontend-portal');
     if (data.repository.name !== 'frontend-portal') {
       fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, { encoding: 'utf-8' });
     }
