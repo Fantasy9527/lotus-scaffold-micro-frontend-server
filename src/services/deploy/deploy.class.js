@@ -46,6 +46,7 @@ class Service {
 
   async deploy (data){
     console.log('webhook开始启动');
+    console.log(data);
     let originPath = `${os.homedir()}/micro-frontend-temp`;
     let serviceStatic = `${os.homedir()}/micro-frontend-project/`;
     let viewStatic = `${os.homedir()}/micro-frontend-view/`;
