@@ -75,6 +75,7 @@ class Service {
 
     console.log('开始构建打包');
     shell.exec('npm run build:micro');
+    console.log('当前项目为:', data.repository);
     console.log('打包完成,开始移动到服务静态目录');
 
     //判断是否有静态目录文件夹
@@ -99,8 +100,8 @@ class Service {
 
 
     //如果是出口项目,则直接移动到 view目录
-    console.log('当前项目为:', (data.repository||data).name);
-    if ((data.repository || data).name === 'frontend-portal') {
+    console.log('当前项目为:',data.repository);
+    if (data.repository.name === 'frontend-portal') {
       targetPath = `${viewStatic}`;
     }else{
       targetPath = `${serviceStatic}${registerConfig.name}`;
