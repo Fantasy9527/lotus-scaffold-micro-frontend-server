@@ -100,7 +100,7 @@ class Service {
 
 
     //如果是出口项目,则直接移动到 view目录
-    console.log('当前项目为:',data.repository);
+    console.log('当前项目为:',data.repository.name);
     if (data.repository.name === 'frontend-portal') {
       targetPath = `${viewStatic}`;
     }else{
@@ -118,6 +118,7 @@ class Service {
     
 
     //不是出口项目,才写入配置文件
+    console.log("是否为出口项目"，data.repository.name !== 'frontend-portal')
     if (data.repository.name !== 'frontend-portal') {
       fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, { encoding: 'utf-8' });
     }
