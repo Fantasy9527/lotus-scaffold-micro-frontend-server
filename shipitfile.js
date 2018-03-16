@@ -7,7 +7,7 @@ module.exports = function(shipit) {
   shipit.initConfig({
     default: {
       workspace: '/tmp/github-monitor',
-      repositoryUrl: 'http://git.jc/yangfan01/micro-frontend-server.git',
+      repositoryUrl: 'http://git.jc/micro-frontend/micro-frontend-server.git',
       ignores: [
         '.git', 'node_modules',
       ],
