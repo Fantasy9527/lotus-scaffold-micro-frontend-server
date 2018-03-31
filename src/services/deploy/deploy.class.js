@@ -1,3 +1,4 @@
+var shell = require('shell');  
 var fs = require('fs');  
 const fse = require('fs-extra');
 var os = require('os');
@@ -71,7 +72,7 @@ class Service {
     try {
       console.log('准备打开路径',originPath)
       
-      exec(`cd ${originPath}`);
+      shell.cd(`${originPath}`);
       console.log('当前目录为:');
       exec('pwd');
     } catch (error) {
@@ -89,7 +90,7 @@ class Service {
 
 
     try {
-      exec('cd '+path);
+      shell.cd(path);
       console.log('当前目录为:');
       exec('pwd');
     } catch (error) {
