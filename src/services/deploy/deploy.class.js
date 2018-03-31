@@ -61,7 +61,7 @@ class Service {
     if (!this.fsExistsSync(originPath)) {
       console.log('文件夹不存在,开始创建');
       try {
-        exec('mkdir '+originPath);
+       await exec('mkdir '+originPath);
       } catch (error) {
         console.log(originPath+'创建失败')
         return
@@ -74,14 +74,14 @@ class Service {
       
       shell.cd(`${originPath}`);
       console.log('当前目录为:');
-      exec('pwd');
+      await exec('pwd');
     } catch (error) {
       console.log(originPath,'文件夹打开失败')
       return
     }
     console.log('开始clone项目', data.repository.name, data.repository);
     try {
-      exec(`git clone ${data.repository.url}`);
+      await exec(`git clone ${data.repository.url}`);
     } catch (error) {
       console.log('克隆失败')
       return
@@ -92,16 +92,16 @@ class Service {
     try {
       shell.cd(path);
       console.log('当前目录为:');
-      exec('pwd');
+      await exec('pwd');
     } catch (error) {
       console.log('文件夹打开失败')
       return
     }
     console.log('当前目录为:');
-    exec('pwd');
+    await exec('pwd');
     console.log('检出分支为:', data.project.default_branch);
     try {
-      exec(`git checkout ${data.project.default_branch}`);
+      await exec(`git checkout ${data.project.default_branch}`);
     } catch (error) {
       console.log(data.project.default_branch,'检出分支失败')
       return
@@ -110,7 +110,7 @@ class Service {
 
     console.log('准备拉取代码');
     try {
-      exec('git pull');
+      await exec('git pull');
     } catch (error) {
       console.log(data.project.default_branch,'代码拉取失败')
       return
@@ -120,7 +120,7 @@ class Service {
 
     console.log('开始安装依赖');
     try {
-      exec('cnpm i');
+      await  exec('cnpm i');
     } catch (error) {
       console.log('依赖安装失败')
       return
@@ -129,24 +129,25 @@ class Service {
 
     console.log('开始构建打包');
     try {
-      exec('npm run build:micro');
+      await exec('npm run build:micro');
+      console.log('当前项目为:', data.repository);
+      console.log('打包完成,开始移动到服务静态目录');
     } catch (error) {
       console.log('应用构建失败')
       return
     }
-    console.log('当前项目为:', data.repository);
-    console.log('打包完成,开始移动到服务静态目录');
+
 
     //判断是否有静态目录文件夹
       if (!this.fsExistsSync(serviceStatic)) {
       console.log('静态目录文件夹不存在,开始创建');
-      exec('mkdir -p '+ serviceStatic);
+      await  exec('mkdir -p '+ serviceStatic);
     }
 
     //判断是否有静态目录文件夹
     if (!this.fsExistsSync(viewStatic)) {
       console.log('静态目录文件夹不存在,开始创建');
-      exec('mkdir -p '+ viewStatic);
+      await exec('mkdir -p '+ viewStatic);
     }
 
     let projectPackage = require(`${path}/package.json`);
