@@ -84,7 +84,6 @@ class Service {
       await exec(`git clone ${data.repository.url}`);
     } catch (error) {
       console.log('克隆失败')
-      return
     }
     
 
