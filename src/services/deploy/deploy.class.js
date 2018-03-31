@@ -72,7 +72,8 @@ class Service {
       console.log('准备打开路径',originPath)
       
       exec(`cd ${originPath}`);
-      exec(`pwd`);
+      console.log('当前目录为:');
+      exec('pwd');
     } catch (error) {
       console.log(originPath,'文件夹打开失败')
       return
