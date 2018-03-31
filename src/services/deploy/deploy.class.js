@@ -70,7 +70,9 @@ class Service {
 
     try {
       console.log('准备打开路径',originPath)
+      
       exec(`cd ${originPath}`);
+      exec(`pwd`);
     } catch (error) {
       console.log(originPath,'文件夹打开失败')
       return
