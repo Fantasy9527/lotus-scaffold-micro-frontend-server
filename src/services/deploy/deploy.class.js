@@ -51,7 +51,7 @@ class Service {
   async deploy (data){
     console.log('webhook开始启动');
     console.log(data);
-    let originPath = `${os.homedir()}/micro-frontend-temp`;
+    let originPath = `${os.homedir()}/micro-frontend-temp/`;
     let serviceStatic = `${os.homedir()}/micro-frontend-project/`;
     let viewStatic = `${os.homedir()}/micro-frontend-view/`;
     let path = `${os.homedir()}/micro-frontend-temp/${data.repository.name}`;
@@ -80,7 +80,7 @@ class Service {
     }
     console.log('开始clone项目', data.repository.name, data.repository);
     try {
-      exec(`git clone ${data.repository.url}`);
+      exec(`git clone ${data.repository.url} ${originPath}`);
     } catch (error) {
       console.log('克隆失败')
       return
