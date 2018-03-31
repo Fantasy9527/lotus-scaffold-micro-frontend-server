@@ -1,14 +1,18 @@
-var shell = require('shelljs');
-
 var fs = require('fs');  
 const fse = require('fs-extra');
 var os = require('os');
+const exec = require('../../util/exec')
 console.log(process.cwd() );
 let projectPath = process.cwd();
 
 //项目初始化的时候链接文件夹
-shell.exec(`ln -nfs ${os.homedir()}/micro-frontend-project ${projectPath}/project`);
-shell.exec(`ln -nfs ${os.homedir()}/micro-frontend-view ${projectPath}/view`);
+try {
+  exec(`ln -nfs ${os.homedir()}/micro-frontend-project ${projectPath}/project`);
+  exec(`ln -nfs ${os.homedir()}/micro-frontend-view ${projectPath}/view`);
+} catch (error) {
+  return
+}
+
 
 
 let deployLine = [];
@@ -55,39 +59,86 @@ class Service {
     console.log(this.fsExistsSync(originPath));
     if (!this.fsExistsSync(originPath)) {
       console.log('文件夹不存在,开始创建');
-      shell.mkdir(originPath);
+      try {
+        exec('mkdir '+originPath);
+      } catch (error) {
+        console.log(originPath+'创建失败')
+        return
+      }
+      
     }
-    shell.cd(originPath);
+    try {
+      exec(`cd ${originPath}`);
+    } catch (error) {
+      console.log(originPath,'文件夹打开失败')
+      return
+    }
     console.log('开始clone项目', data.repository.name, data.repository);
-    shell.exec(`git clone ${data.repository.url}`);
+    try {
+      exec(`git clone ${data.repository.url}`);
+    } catch (error) {
+      console.log('克隆失败')
+      return
+    }
+    
 
-    shell.cd(path);
+
+    try {
+      exec('cd '+path);
+    } catch (error) {
+      console.log('文件夹打开失败')
+      return
+    }
     console.log('当前目录为:');
-    shell.exec('pwd');
+    exec('pwd');
     console.log('检出分支为:', data.project.default_branch);
-    shell.exec(`git checkout ${data.project.default_branch}`);
+    try {
+      exec(`git checkout ${data.project.default_branch}`);
+    } catch (error) {
+      console.log(data.project.default_branch,'检出分支失败')
+      return
+    }
+
 
     console.log('准备拉取代码');
-    shell.exec('git pull');
+    try {
+      exec('git pull');
+    } catch (error) {
+      console.log(data.project.default_branch,'代码拉取失败')
+      return
+    }
+
+ 
 
     console.log('开始安装依赖');
-    shell.exec('cnpm i');
+    try {
+      exec('cnpm i');
+    } catch (error) {
+      console.log('依赖安装失败')
+      return
+    }
+
 
     console.log('开始构建打包');
-    shell.exec('npm run build:micro');
+    try {
+      exec('npm run build:micro');
+    } catch (error) {
+      console.log('应用构建失败')
+      return
+    }
     console.log('当前项目为:', data.repository);
     console.log('打包完成,开始移动到服务静态目录');
 
     //判断是否有静态目录文件夹
-    if (!shell.test('-d', serviceStatic)) {
+      if (!this.fsExistsSync(serviceStatic)) {
       console.log('静态目录文件夹不存在,开始创建');
-      shell.mkdir('-p', serviceStatic);
+      exec('mkdir -p '+ serviceStatic);
     }
 
     //判断是否有静态目录文件夹
     if (!this.fsExistsSync(viewStatic)) {
       console.log('静态目录文件夹不存在,开始创建');
-      shell.mkdir('-p', viewStatic);
+      exec('mkdir -p '+ viewStatic);
     }
 
     let projectPackage = require(`${path}/package.json`);
