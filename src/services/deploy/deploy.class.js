@@ -120,6 +120,8 @@ class Service {
     console.log('开始安装依赖');
     try {
       await  exec('cnpm i');
+      await  exec('cnpm i');
+      await  exec('cnpm i');
     } catch (error) {
       console.log('依赖安装失败')
       return
