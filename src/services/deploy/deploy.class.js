@@ -1,4 +1,4 @@
-var shell = require('shell');  
+var shell = require('shelljs');  
 var fs = require('fs');  
 const fse = require('fs-extra');
 var os = require('os');
