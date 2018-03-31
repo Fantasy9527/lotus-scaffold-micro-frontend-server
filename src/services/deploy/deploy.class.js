@@ -90,6 +90,8 @@ class Service {
 
     try {
       exec('cd '+path);
+      console.log('当前目录为:');
+      exec('pwd');
     } catch (error) {
       console.log('文件夹打开失败')
       return
