@@ -3,7 +3,7 @@ var fs = require('fs');
 const fse = require('fs-extra');
 var os = require('os');
 const exec = require('../../util/exec')
-var process = require('child_process');
+var child_process = require('child_process');
 console.log(process.cwd() );
 let projectPath = process.cwd();
 //项目初始化的时候链接文件夹
@@ -119,7 +119,7 @@ class Service {
 
     console.log('开始安装依赖');
     try {
-      process.exec('cnpm i',function (error, stdout, stderr) {
+      child_process.exec('cnpm i',function (error, stdout, stderr) {
         if (error !== null) {
           console.log('exec error: ' + error);
         }
