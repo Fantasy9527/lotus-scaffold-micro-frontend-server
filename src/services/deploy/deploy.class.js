@@ -119,11 +119,6 @@ class Service {
 
     console.log('开始安装依赖');
     try {
-      child_process.exec('cnpm i',function (error, stdout, stderr) {
-        if (error !== null) {
-          console.log('exec error: ' + error);
-        }
-      });
       await  exec('cnpm i');
       await  exec('cnpm i');
       await  exec('cnpm i');
