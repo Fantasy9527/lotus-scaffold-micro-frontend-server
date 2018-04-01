@@ -3,9 +3,9 @@ var fs = require('fs');
 const fse = require('fs-extra');
 var os = require('os');
 const exec = require('../../util/exec')
+var process = require('child_process');
 console.log(process.cwd() );
 let projectPath = process.cwd();
-var process = require('child_process');
 //项目初始化的时候链接文件夹
 try {
   exec(`ln -nfs ${os.homedir()}/micro-frontend-project ${projectPath}/project`);
