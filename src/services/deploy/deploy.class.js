@@ -5,7 +5,7 @@ var os = require('os');
 const exec = require('../../util/exec')
 console.log(process.cwd() );
 let projectPath = process.cwd();
-
+var process = require('child_process');
 //项目初始化的时候链接文件夹
 try {
   exec(`ln -nfs ${os.homedir()}/micro-frontend-project ${projectPath}/project`);
@@ -119,6 +119,11 @@ class Service {
 
     console.log('开始安装依赖');
     try {
+      process.exec('cnpm i',function (error, stdout, stderr) {
+        if (error !== null) {
+          console.log('exec error: ' + error);
+        }
+      });
       await  exec('cnpm i');
       await  exec('cnpm i');
       await  exec('cnpm i');
