@@ -2,7 +2,7 @@ var shell = require('shelljs');
 var fs = require('fs');  
 const fse = require('fs-extra');
 var os = require('os');
-const exec = require('../../util/exec')
+const exec = require('../../util/exec');
 var child_process = require('child_process');
 console.log(process.cwd() );
 let projectPath = process.cwd();
@@ -11,7 +11,7 @@ try {
   exec(`ln -nfs ${os.homedir()}/micro-frontend-project ${projectPath}/project`);
   exec(`ln -nfs ${os.homedir()}/micro-frontend-view ${projectPath}/view`);
 } catch (error) {
-  return
+  return;
 }
 
 
@@ -61,29 +61,29 @@ class Service {
     if (!this.fsExistsSync(originPath)) {
       console.log('文件夹不存在,开始创建');
       try {
-       await exec('mkdir '+originPath);
+        await exec('mkdir '+originPath);
       } catch (error) {
-        console.log(originPath+'创建失败')
-        return
+        console.log(originPath+'创建失败');
+        return;
       }
       
     }
 
     try {
-      console.log('准备打开路径',originPath)
+      console.log('准备打开路径',originPath);
       
       shell.cd(`${originPath}`);
       console.log('当前目录为:');
       await exec('pwd');
     } catch (error) {
-      console.log(originPath,'文件夹打开失败')
-      return
+      console.log(originPath,'文件夹打开失败');
+      return;
     }
     console.log('开始clone项目', data.repository.name, data.repository);
     try {
       await exec(`git clone ${data.repository.url}`);
     } catch (error) {
-      console.log('克隆失败')
+      console.log('克隆失败');
     }
     
 
@@ -93,8 +93,8 @@ class Service {
       console.log('当前目录为:');
       await exec('pwd');
     } catch (error) {
-      console.log('文件夹打开失败')
-      return
+      console.log('文件夹打开失败');
+      return;
     }
     console.log('当前目录为:');
     await exec('pwd');
@@ -102,8 +102,8 @@ class Service {
     try {
       await exec(`git checkout ${data.project.default_branch}`);
     } catch (error) {
-      console.log(data.project.default_branch,'检出分支失败')
-      return
+      console.log(data.project.default_branch,'检出分支失败');
+      return;
     }
 
 
@@ -111,8 +111,8 @@ class Service {
     try {
       await exec('git pull');
     } catch (error) {
-      console.log(data.project.default_branch,'代码拉取失败')
-      return
+      console.log(data.project.default_branch,'代码拉取失败');
+      return;
     }
 
  
@@ -123,8 +123,8 @@ class Service {
       await  exec('cnpm i');
       await  exec('cnpm i');
     } catch (error) {
-      console.log('依赖安装失败')
-      return
+      console.log('依赖安装失败');
+      return;
     }
 
 
@@ -134,13 +134,13 @@ class Service {
       console.log('当前项目为:', data.repository);
       console.log('打包完成,开始移动到服务静态目录');
     } catch (error) {
-      console.log('应用构建失败')
-      return
+      console.log('应用构建失败');
+      return;
     }
 
 
     //判断是否有静态目录文件夹
-      if (!this.fsExistsSync(serviceStatic)) {
+    if (!this.fsExistsSync(serviceStatic)) {
       console.log('静态目录文件夹不存在,开始创建');
       await  exec('mkdir -p '+ serviceStatic);
     }
