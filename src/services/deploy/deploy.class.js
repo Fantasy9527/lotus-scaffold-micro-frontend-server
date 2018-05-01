@@ -149,7 +149,7 @@ class Service {
       await exec('mkdir -p '+ viewStatic);
     }
 
-    let projectPackage = fse.readJson(`${path}/package.json`);
+    let projectPackage = await fse.readJson(`${path}/package.json`);
     let registerConfig = projectPackage.registerConfig;
 
     //移动打包好的文件
