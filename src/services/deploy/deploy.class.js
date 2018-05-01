@@ -51,6 +51,7 @@ class Service {
 
   async deploy (data){
     console.log('webhook开始启动');
+    console.time('打包耗时');
     console.log(data);
     let originPath = `${os.homedir()}/micro-frontend-temp/`;
     let serviceStatic = `${os.homedir()}/micro-frontend-project/`;
@@ -204,7 +205,7 @@ class Service {
     }
 
     console.log('发布完毕!!!!!!!');
-
+    console.timeEnd('打包耗时');
   }
 
 
