@@ -212,12 +212,11 @@ class Service {
   generateProjectConfig(path, projectConfigList) {
     console.log('需要遍历的文件夹', path);
     var files = fs.readdirSync(path);
-    files.forEach(function (itm, index) {
+    files.forEach(async function(itm, index) {
       var stat = fs.statSync(path + '/' + itm);
       if (stat.isDirectory()) {
       //递归读取文件
-        projectConfigList.push(fse.readJson(path + '/' + itm + '/project.js'));
-
+        projectConfigList.push(await fse.readJson(path + '/' + itm + '/project.js'));
       }
     });
     return projectConfigList;
