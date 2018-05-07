@@ -180,10 +180,10 @@ class Service {
     //不是出口项目,才写入配置文件
     console.log('是否为出口项目',data.repository.name === 'frontend-portal');
     if (data.repository.name !== 'frontend-portal') {
+      console.log('开始生成project.js', registerConfig);
       fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, { encoding: 'utf-8' });
     }
    
-    
     //获取微前端配置文件的必要信息
     console.log('获取微前端配置文件的必要信息');
     let projectConfigList =  this.generateProjectConfig(`${projectPath}/project`, []);
@@ -210,6 +210,7 @@ class Service {
 
 
   generateProjectConfig(path, projectConfigList) {
+    console.log('需要遍历的文件夹', path);
     var files = fs.readdirSync(path);
     files.forEach(function (itm, index) {
       var stat = fs.statSync(path + '/' + itm);
