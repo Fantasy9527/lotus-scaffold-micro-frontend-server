@@ -1,10 +1,10 @@
-var shell = require('shelljs');  
-var fs = require('fs');  
+var shell = require('shelljs');
+var fs = require('fs');
 const fse = require('fs-extra');
 var os = require('os');
 const exec = require('../../util/exec');
 var child_process = require('child_process');
-console.log(process.cwd() );
+console.log(process.cwd());
 let projectPath = process.cwd();
 //项目初始化的时候链接文件夹
 try {
@@ -24,7 +24,9 @@ class Service {
     let projectConfigList = this.generateProjectConfig(`${projectPath}/project`, []);
     //生成微前端配置文件
     console.log('生成微前端配置文件');
-    fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, { encoding: 'utf-8' });
+    fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, {
+      encoding: 'utf-8'
+    });
   }
 
   async find(params) {
@@ -40,16 +42,16 @@ class Service {
 
   async create(data, params) {
     deployLine.push(data);
-    deployTimer&&clearTimeout(deployTimer);
-    deployTimer = setTimeout(()=>{
-      this.deploy(deployLine[deployLine.length-1]);
+    deployTimer && clearTimeout(deployTimer);
+    deployTimer = setTimeout(() => {
+      this.deploy(deployLine[deployLine.length - 1]);
       deployTimer = null;
-    },5000);
+    }, 5000);
 
     return data;
   }
 
-  async deploy (data){
+  async deploy(data) {
     console.log('webhook开始启动');
     console.time('打包耗时');
     console.log(data);
@@ -62,22 +64,22 @@ class Service {
     if (!this.fsExistsSync(originPath)) {
       console.log('文件夹不存在,开始创建');
       try {
-        await exec('mkdir '+originPath);
+        await exec('mkdir ' + originPath);
       } catch (error) {
-        console.log(originPath+'创建失败');
+        console.log(originPath + '创建失败');
         return;
       }
-      
+
     }
 
     try {
-      console.log('准备打开路径',originPath);
-      
+      console.log('准备打开路径', originPath);
+
       shell.cd(`${originPath}`);
       console.log('当前目录为:');
       await exec('pwd');
     } catch (error) {
-      console.log(originPath,'文件夹打开失败');
+      console.log(originPath, '文件夹打开失败');
       return;
     }
     console.log('开始clone项目', data.repository.name, data.repository);
@@ -86,7 +88,7 @@ class Service {
     } catch (error) {
       console.log('克隆失败');
     }
-    
+
 
 
     try {
@@ -103,7 +105,7 @@ class Service {
     try {
       await exec(`git checkout ${data.project.default_branch}`);
     } catch (error) {
-      console.log(data.project.default_branch,'检出分支失败');
+      console.log(data.project.default_branch, '检出分支失败');
       return;
     }
 
@@ -112,15 +114,15 @@ class Service {
     try {
       await exec('git pull');
     } catch (error) {
-      console.log(data.project.default_branch,'代码拉取失败');
+      console.log(data.project.default_branch, '代码拉取失败');
       return;
     }
 
- 
+
 
     console.log('开始安装依赖');
     try {
-      await  exec('cnpm i');
+      await exec('cnpm i');
     } catch (error) {
       console.log('依赖安装失败');
       return;
@@ -141,13 +143,13 @@ class Service {
     //判断是否有静态目录文件夹
     if (!this.fsExistsSync(serviceStatic)) {
       console.log('静态目录文件夹不存在,开始创建');
-      await  exec('mkdir -p '+ serviceStatic);
+      await exec('mkdir -p ' + serviceStatic);
     }
 
     //判断是否有静态目录文件夹
     if (!this.fsExistsSync(viewStatic)) {
       console.log('静态目录文件夹不存在,开始创建');
-      await exec('mkdir -p '+ viewStatic);
+      await exec('mkdir -p ' + viewStatic);
     }
 
     let projectPackage = await fse.readJson(`${path}/package.json`);
@@ -160,39 +162,43 @@ class Service {
 
 
     //如果是出口项目,则直接移动到 view目录
-    console.log('当前项目为:',data.repository.name);
+    console.log('当前项目为:', data.repository.name);
     if (data.repository.name === 'frontend-portal') {
       targetPath = `${viewStatic}`;
-    }else{
+    } else {
       targetPath = `${serviceStatic}${registerConfig.name}`;
     }
- 
+
     console.log('开始移动文件夹', `${path}/build to ${targetPath}`);
-    
+
     try {
       await fse.copy(`${path}/build`, `${targetPath}`);
       console.log('移动完毕');
     } catch (err) {
       console.error(err);
     }
-    
+
 
     //不是出口项目,才写入配置文件
-    console.log('是否为出口项目',data.repository.name === 'frontend-portal');
+    console.log('是否为出口项目', data.repository.name === 'frontend-portal');
     if (data.repository.name !== 'frontend-portal') {
       console.log('开始生成project.js', registerConfig);
-      fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, { encoding: 'utf-8' });
+      fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, {
+        encoding: 'utf-8'
+      });
     }
-   
+
     //获取微前端配置文件的必要信息
     console.log('获取微前端配置文件的必要信息');
-    let projectConfigList =  this.generateProjectConfig(`${projectPath}/project`, []);
+    let projectConfigList = this.generateProjectConfig(`${projectPath}/project`, []);
 
     console.log(projectConfigList);
 
     //生成微前端配置文件
     console.log('生成微前端配置文件');
-    fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, { encoding: 'utf-8' });
+    fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, {
+      encoding: 'utf-8'
+    });
 
     //删除旧文件夹
     try {
@@ -209,16 +215,17 @@ class Service {
   }
 
 
-  generateProjectConfig(path, projectConfigList) {
+  async generateProjectConfig(path, projectConfigList) {
     console.log('需要遍历的文件夹', path);
     var files = fs.readdirSync(path);
-    files.forEach(async function(itm, index) {
-      var stat = fs.statSync(path + '/' + itm);
+    for (let index = 0; index < files.length; index++) {
+      const element = files[index];
+      var stat = fs.statSync(path + '/' + element);
       if (stat.isDirectory()) {
-      //递归读取文件
-        projectConfigList.push(await fse.readJson(path + '/' + itm + '/project.js'));
+        //递归读取文件
+        projectConfigList.push(await fse.readJson(path + '/' + element + '/project.js'));
       }
-    });
+    }
     return projectConfigList;
   }
 
