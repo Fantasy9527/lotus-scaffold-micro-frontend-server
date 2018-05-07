@@ -107,8 +107,6 @@ class Service {
       console.log(data.project.default_branch, '检出分支失败');
       return;
     }
-
-
     console.log('准备拉取代码');
     try {
       await exec('git pull');
@@ -116,9 +114,7 @@ class Service {
       console.log(data.project.default_branch, '代码拉取失败');
       return;
     }
-
-
-
+    
     console.log('开始安装依赖');
     try {
       await exec('cnpm i');
