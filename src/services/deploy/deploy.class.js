@@ -24,7 +24,7 @@ class Service {
     let projectConfigList = this.generateProjectConfig(`${projectPath}/project`, []);
     //生成微前端配置文件
     console.log('生成微前端配置文件');
-    fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, {
+    fs.writeFileSync(`${projectPath}/view/project.config.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, {
       encoding: 'utf-8'
     });
   }
@@ -86,10 +86,9 @@ class Service {
     try {
       await exec(`git clone ${data.repository.url}`);
     } catch (error) {
-      console.log('克隆失败');
+      console.log('克隆失败', error);
+
     }
-
-
 
     try {
       shell.cd(path);
@@ -191,12 +190,9 @@ class Service {
     //获取微前端配置文件的必要信息
     console.log('获取微前端配置文件的必要信息');
     let projectConfigList = this.generateProjectConfig(`${projectPath}/project`, []);
-
-    console.log(projectConfigList);
-
     //生成微前端配置文件
     console.log('生成微前端配置文件');
-    fs.writeFileSync(`${projectPath}/view/project.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, {
+    fs.writeFileSync(`${projectPath}/view/project.config.js`, `module.exports={projects:${JSON.stringify(projectConfigList)}}`, {
       encoding: 'utf-8'
     });
 
@@ -215,7 +211,7 @@ class Service {
   }
 
 
-  async generateProjectConfig(path, projectConfigList) {
+  generateProjectConfig(path, projectConfigList) {
     console.log('需要遍历的文件夹', path);
     var files = fs.readdirSync(path);
     for (let index = 0; index < files.length; index++) {
@@ -223,7 +219,7 @@ class Service {
       var stat = fs.statSync(path + '/' + element);
       if (stat.isDirectory()) {
         //递归读取文件
-        let json = fse.readJsonSync(path + '/' + element + '/project.js');
+        let json = fse.readJsonSync(path + '/' + element + '/project.json');
         projectConfigList.push(json);
 
       }
