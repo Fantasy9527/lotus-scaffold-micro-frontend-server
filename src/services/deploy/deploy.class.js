@@ -182,8 +182,8 @@ class Service {
     //不是出口项目,才写入配置文件
     console.log('是否为出口项目', data.repository.name === 'frontend-portal');
     if (data.repository.name !== 'frontend-portal') {
-      console.log('开始生成project.js', registerConfig);
-      fs.writeFileSync(`${targetPath}/project.js`, `module.exports=${JSON.stringify(registerConfig)}`, {
+      console.log('开始生成project.json', registerConfig);
+      fs.writeFileSync(`${targetPath}/project.json`, `${JSON.stringify(registerConfig)}`, {
         encoding: 'utf-8'
       });
     }
@@ -223,7 +223,9 @@ class Service {
       var stat = fs.statSync(path + '/' + element);
       if (stat.isDirectory()) {
         //递归读取文件
-        projectConfigList.push(await fse.readJson(path + '/' + element + '/project.js'));
+        let json = fse.readJsonSync(path + '/' + element + '/project.js');
+        projectConfigList.push(json);
+
       }
     }
     return projectConfigList;
