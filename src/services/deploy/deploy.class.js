@@ -216,7 +216,8 @@ class Service {
       var stat = fs.statSync(path + '/' + itm);
       if (stat.isDirectory()) {
       //递归读取文件
-        projectConfigList.push(require(path + '/' + itm + '/project.js'));
+        projectConfigList.push(fse.readJson(path + '/' + itm + '/project.js'));
+
       }
     });
     return projectConfigList;
