@@ -1,10 +1,18 @@
 module.exports={
-    "files":[
-        "config/",
-        "public/",
-        "scripts/",
-        "src/",
-        "package.json",
-        "README.md"
-    ]
-}
+  'files':[
+    'config/',
+    'public/',
+    'src/',
+    'package.json',
+    'README.md',
+    '.editorconfig',
+    '.eslintrc.json',
+    'LICENSE',
+    'nodemon.json',
+    'package.json',
+    'pm2.json',
+    'pm2.local.json',
+    'pm2.test.json',
+    'shipitfile.js',
+  ]
+};

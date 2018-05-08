@@ -1,7 +1,7 @@
 {
     "name": "lotus-scaffold-micro-frontend-server",
-    "description": "",
-    "version": "0.0.1",
+    "description": "微服务部署服务",
+    "version": "0.0.2",
     "homepage": "",
     "main": "src",
     "keywords": [
