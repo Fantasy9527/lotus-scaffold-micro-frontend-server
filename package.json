@@ -1,61 +1,66 @@
 {
-    "name": "lotus-scaffold-micro-frontend-server",
-    "description": "微服务部署服务",
-    "version": "0.0.2",
-    "homepage": "",
-    "main": "src",
-    "keywords": [
-        "feathers"
-    ],
-    "contributors": [],
-    "bugs": {},
-    "directories": {
-        "lib": "src",
-        "test": "test/"
-    },
-    "engines": {
-        "node": "^8.0.0",
-        "npm": ">= 3.0.0"
-    },
-    "scripts": {
-        "dev": "nodemon src/",
-        "test": "npm run eslint && npm run mocha",
-        "eslint": "eslint src/. test/. --config .eslintrc.json",
-        "start": "node src/",
-        "mocha": "mocha test/ --recursive --exit",
-        "deploy:prod": "shipit Production deploy",
-        "deploy:test": "shipit Test deploy",
-        "rollback:prod": "shipit Production rollback",
-        "deploy:dev": "shipit Development deploy",
-        "rollback:dev": "shipit Development rollback"
-    },
-    "dependencies": {
-        "@feathersjs/configuration": "^1.0.2",
-        "@feathersjs/errors": "^3.3.0",
-        "@feathersjs/express": "^1.2.0",
-        "@feathersjs/feathers": "^3.1.3",
-        "@feathersjs/socketio": "^3.2.0",
-        "compression": "^1.7.2",
-        "connect-history-api-fallback": "^1.5.0",
-        "cors": "^2.8.4",
-        "fs-extra": "^5.0.0",
-        "helmet": "^3.9.0",
-        "serve-favicon": "^2.4.5",
-        "shelljs": "^0.8.1",
-        "winston": "^2.4.0"
-    },
-    "devDependencies": {
-        "eslint": "^4.18.2",
-        "mocha": "^5.0.2",
-        "request": "^2.83.0",
-        "request-promise": "^4.2.2",
-        "shipit-pm2": "^0.0.4",
-        "shipit-cli": "^3.0.0",
-        "shipit-cnpmjs": "^0.1.0",
-        "shipit-deploy": "^2.5.1"
-    },
-    "bin": {
-        "micro-frontend-server": "_lotus/bin/index.js"
-    },
-    "scaffold": "lotus-scaffold-micro-frontend-server"
+  "name": "lotus-scaffold-micro-frontend-server",
+  "description": "微服务部署服务",
+  "version": "0.0.3",
+  "homepage": "",
+  "main": "src",
+  "keywords": [
+    "feathers"
+  ],
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src",
+    "test": "test/"
+  },
+  "engines": {
+    "node": "^8.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon src/",
+    "test": "npm run eslint && npm run mocha",
+    "eslint": "eslint src/. test/. --config .eslintrc.json",
+    "start": "node src/",
+    "mocha": "mocha test/ --recursive --exit",
+    "deploy:prod": "shipit Production deploy",
+    "deploy:test": "shipit Test deploy",
+    "rollback:prod": "shipit Production rollback",
+    "deploy:dev": "shipit Development deploy",
+    "rollback:dev": "shipit Development rollback"
+  },
+  "dependencies": {
+    "@feathersjs/configuration": "^1.0.2",
+    "@feathersjs/errors": "^3.3.0",
+    "@feathersjs/express": "^1.2.0",
+    "@feathersjs/feathers": "^3.1.3",
+    "@feathersjs/socketio": "^3.2.0",
+    "commander": "^2.15.1",
+    "compression": "^1.7.2",
+    "connect-history-api-fallback": "^1.5.0",
+    "consolidate": "^0.15.1",
+    "cors": "^2.8.4",
+    "fs-extra": "^5.0.0",
+    "helmet": "^3.9.0",
+    "inquirer": "^5.2.0",
+    "lotusjs-util": "^1.0.7",
+    "metalsmith": "^2.3.0",
+    "serve-favicon": "^2.4.5",
+    "shelljs": "^0.8.1",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "mocha": "^5.0.2",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "shipit-pm2": "^0.0.4",
+    "shipit-cli": "^3.0.0",
+    "shipit-cnpmjs": "^0.1.0",
+    "shipit-deploy": "^2.5.1"
+  },
+  "bin": {
+    "micro-frontend-server": "_lotus/bin/index.js"
+  },
+  "scaffold": "lotus-scaffold-micro-frontend-server"
 }
