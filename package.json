@@ -1,8 +1,7 @@
 {
   "name": "lotus-scaffold-micro-frontend-server",
   "description": "微服务部署服务",
-  "version": "0.0.3",
-  "homepage": "",
+  "version": "0.0.4",
   "main": "src",
   "keywords": [
     "feathers"
@@ -60,7 +59,7 @@
     "shipit-deploy": "^2.5.1"
   },
   "bin": {
-    "micro-frontend-server": "_lotus/bin/index.js"
+    "lotus-scaffold-micro-frontend-server": "_lotus/bin/index.js"
   },
   "scaffold": "lotus-scaffold-micro-frontend-server"
 }
